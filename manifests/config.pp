@@ -45,7 +45,7 @@ class auditd::config {
   file { '/etc/audit/audit.rules':
     owner => 'root',
     group => $auditd::log_group,
-    mode  => 'o-rwx'
+    mode  => $log_file_mode,
   }
 
   # Build the auditd.conf from parts
@@ -86,10 +86,11 @@ class auditd::config {
   }
 
   file { '/var/log/audit':
-    ensure => 'directory',
-    owner  => 'root',
-    group  => $auditd::log_group,
-    mode   => $log_file_mode,
+    ensure  => 'directory',
+    owner   => 'root',
+    group   => $auditd::log_group,
+    mode    => $log_file_mode,
+    recurse => true,
   }
 
   file { $auditd::log_file:
